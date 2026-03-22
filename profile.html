@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль — Недвижимость с кэшбеком</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-profile">
+  <div id="authBoot" class="auth-boot" aria-live="polite" aria-busy="true">
+    <div class="auth-boot__spinner" aria-hidden="true"></div>
+    <p class="auth-boot__text">Загрузка сессии…</p>
+  </div>
+  <div id="authScreen" class="auth-screen" hidden role="dialog" aria-modal="true" aria-labelledby="auth-screen-title">
+    <div class="auth-screen__inner">
+      <div class="auth-screen__visual">
+        <img
+          class="auth-screen__img"
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
+          width="1200"
+          height="900"
+          alt=""
+        >
+        <div class="auth-screen__overlay"></div>
+        <div class="auth-screen__brand">
+          <div class="auth-screen__logo" aria-hidden="true">Нк</div>
+          <div>
+            <p id="auth-screen-title" class="auth-screen__company">Недвижимость с кэшбеком</p>
+            <p class="auth-screen__tagline">Премиальные объекты и персональный кэшбек после сделки</p>
+          </div>
+        </div>
+      </div>
+      <div class="auth-screen__panel">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab auth-tab--active" data-auth-tab="login" role="tab" aria-selected="true">Вход</button>
+          <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Регистрация</button>
+        </div>
+        <form id="loginForm" class="auth-form" autocomplete="on">
+          <label class="auth-field">
+            <span class="auth-field__label">Email</span>
+            <input type="email" id="loginEmail" name="email" required placeholder="name@example.com" autocomplete="email">
+          </label>
+          <label class="auth-field">
+            <span class="auth-field__label">Пароль</span>
+            <input type="password" id="loginPassword" name="password" required minlength="6" placeholder="••••••••" autocomplete="current-password">
+          </label>
+          <button type="submit" class="auth-submit">Войти в систему</button>
+        </form>
+        <form id="registerForm" class="auth-form" hidden autocomplete="on">
+          <label class="auth-field">
+            <span class="auth-field__label">Email</span>
+            <input type="email" id="registerEmail" name="email" required placeholder="name@example.com" autocomplete="email">
+          </label>
+          <label class="auth-field">
+            <span class="auth-field__label">Пароль</span>
+            <input type="password" id="registerPassword" name="password" required minlength="6" placeholder="Не менее 6 символов" autocomplete="new-password">
+          </label>
+          <button type="submit" class="auth-submit auth-submit--accent">Создать аккаунт</button>
+        </form>
+        <p id="authError" class="auth-error" hidden role="alert"></p>
+        <p class="auth-hint">Первый раз здесь? Переключитесь на «Регистрацию» и создайте аккаунт.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="siteShell" hidden>
+    <header class="site-header">
+      <div class="container">
+        <h1>Недвижимость с кэшбеком</h1>
+        <p class="subtitle">Подберите объект и узнайте ваш кэшбек</p>
+        <nav class="top-nav">
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Каталог</a>
+          <a href="cashback.html">Расчет кэшбека</a>
+          <a href="profile.html" aria-current="page">Профиль</a>
+          <span id="authUserEmail" class="nav-user" hidden></span>
+          <button type="button" id="signOutBtn" class="nav-signout">Выйти</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container profile-main">
+      <section class="card profile-card" aria-labelledby="profile-heading">
+        <h2 id="profile-heading" class="profile-card__title">Профиль пользователя</h2>
+        <p class="profile-card__lead">Данные вашего аккаунта в системе</p>
+        <dl class="profile-dl">
+          <div class="profile-dl__row">
+            <dt>Email</dt>
+            <dd id="profileEmail">—</dd>
+          </div>
+          <div class="profile-dl__row">
+            <dt>Email подтверждён</dt>
+            <dd id="profileVerified">—</dd>
+          </div>
+          <div class="profile-dl__row">
+            <dt>Идентификатор (UID)</dt>
+            <dd id="profileUid" class="profile-dl__mono">—</dd>
+          </div>
+          <div class="profile-dl__row">
+            <dt>Аккаунт создан</dt>
+            <dd id="profileCreated">—</dd>
+          </div>
+          <div class="profile-dl__row">
+            <dt>Последний вход</dt>
+            <dd id="profileLastLogin">—</dd>
+          </div>
+        </dl>
+        <p class="profile-card__note">
+          Чтобы изменить пароль или email, используйте настройки в
+          <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer">Firebase Console</a>
+          (для администратора) или добавьте на сайт форму «Сброс пароля» позже.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container"></div>
+    </footer>
+  </div>
+
+  <script type="module" src="auth-app.js"></script>
+</body>
+</html>

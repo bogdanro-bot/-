@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог — Недвижимость с кэшбеком</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-catalog">
+  <div id="authBoot" class="auth-boot" aria-live="polite" aria-busy="true">
+    <div class="auth-boot__spinner" aria-hidden="true"></div>
+    <p class="auth-boot__text">Загрузка сессии…</p>
+  </div>
+  <div id="authScreen" class="auth-screen" hidden role="dialog" aria-modal="true" aria-labelledby="auth-screen-title">
+    <div class="auth-screen__inner">
+      <div class="auth-screen__visual">
+        <img
+          class="auth-screen__img"
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
+          width="1200"
+          height="900"
+          alt=""
+        >
+        <div class="auth-screen__overlay"></div>
+        <div class="auth-screen__brand">
+          <div class="auth-screen__logo" aria-hidden="true">Нк</div>
+          <div>
+            <p id="auth-screen-title" class="auth-screen__company">Недвижимость с кэшбеком</p>
+            <p class="auth-screen__tagline">Премиальные объекты и персональный кэшбек после сделки</p>
+          </div>
+        </div>
+      </div>
+      <div class="auth-screen__panel">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab auth-tab--active" data-auth-tab="login" role="tab" aria-selected="true">Вход</button>
+          <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Регистрация</button>
+        </div>
+        <form id="loginForm" class="auth-form" autocomplete="on">
+          <label class="auth-field">
+            <span class="auth-field__label">Email</span>
+            <input type="email" id="loginEmail" name="email" required placeholder="name@example.com" autocomplete="email">
+          </label>
+          <label class="auth-field">
+            <span class="auth-field__label">Пароль</span>
+            <input type="password" id="loginPassword" name="password" required minlength="6" placeholder="••••••••" autocomplete="current-password">
+          </label>
+          <button type="submit" class="auth-submit">Войти в систему</button>
+        </form>
+        <form id="registerForm" class="auth-form" hidden autocomplete="on">
+          <label class="auth-field">
+            <span class="auth-field__label">Email</span>
+            <input type="email" id="registerEmail" name="email" required placeholder="name@example.com" autocomplete="email">
+          </label>
+          <label class="auth-field">
+            <span class="auth-field__label">Пароль</span>
+            <input type="password" id="registerPassword" name="password" required minlength="6" placeholder="Не менее 6 символов" autocomplete="new-password">
+          </label>
+          <button type="submit" class="auth-submit auth-submit--accent">Создать аккаунт</button>
+        </form>
+        <p id="authError" class="auth-error" hidden role="alert"></p>
+        <p class="auth-hint">Первый раз здесь? Переключитесь на «Регистрацию» и создайте аккаунт.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="siteShell" hidden>
+    <header class="site-header">
+      <div class="container">
+        <h1>Недвижимость с кэшбеком</h1>
+        <p class="subtitle">Подберите объект и узнайте ваш кэшбек</p>
+        <nav class="top-nav">
+          <a href="index.html">Главная</a>
+          <a href="catalog.html" aria-current="page">Каталог</a>
+          <a href="cashback.html">Расчет кэшбека</a>
+          <a href="profile.html">Профиль</a>
+          <span id="authUserEmail" class="nav-user" hidden></span>
+          <button type="button" id="signOutBtn" class="nav-signout">Выйти</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container catalog-main">
+      <section class="filter-hero">
+        <h2 class="filter-hero__title">Каталог объектов</h2>
+        <p class="filter-hero__lead">Настройте параметры поиска и нажмите «Найти»</p>
+      </section>
+
+      <section class="filter-panel" aria-labelledby="filter-heading">
+        <div class="filter-panel__head">
+          <h3 id="filter-heading" class="filter-panel__title">Продвинутый фильтр</h3>
+          <p class="filter-panel__hint">Выберите город, комнатность и диапазон цены</p>
+        </div>
+
+        <form id="catalogFilterForm" class="filter-form" novalidate>
+          <div class="filter-group">
+            <span class="filter-label">Город</span>
+            <div class="filter-select-wrap">
+              <select id="filterCity" name="city" class="filter-select" required aria-label="Город">
+                <option value="" disabled selected>Выберите город</option>
+                <option value="novosibirsk">Новосибирск</option>
+                <option value="moscow">Москва</option>
+                <option value="sochi">Сочи</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Количество комнат</span>
+            <div class="filter-chips" role="radiogroup" aria-label="Количество комнат">
+              <label class="filter-chip">
+                <input type="radio" name="rooms" value="1" required>
+                <span>1-комнатная</span>
+              </label>
+              <label class="filter-chip">
+                <input type="radio" name="rooms" value="2">
+                <span>2-комнатная</span>
+              </label>
+              <label class="filter-chip">
+                <input type="radio" name="rooms" value="3">
+                <span>3-комнатная</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group filter-group--price">
+            <span class="filter-label">Цена, ₽</span>
+            <div class="price-range-display">
+              <span>от <strong id="priceMinLabel">2 000 000</strong></span>
+              <span>до <strong id="priceMaxLabel">40 000 000</strong></span>
+            </div>
+            <div class="price-sliders">
+              <label class="sr-only" for="priceMin">Минимальная цена</label>
+              <input type="range" id="priceMin" name="priceMin" min="2000000" max="40000000" step="500000" value="2000000" aria-valuemin="2000000" aria-valuemax="40000000">
+              <label class="sr-only" for="priceMax">Максимальная цена</label>
+              <input type="range" id="priceMax" name="priceMax" min="2000000" max="40000000" step="500000" value="40000000" aria-valuemin="2000000" aria-valuemax="40000000">
+            </div>
+            <p class="filter-price-note">Диапазон: от 2 000 000 до 40 000 000 ₽</p>
+          </div>
+
+          <div class="filter-actions">
+            <button type="submit" class="btn-find" id="btnFind">
+              <span class="btn-find__text">Найти</span>
+              <svg class="btn-find__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <div id="filterError" class="filter-message filter-message--error" hidden></div>
+      </section>
+
+      <section id="catalogResults" class="catalog-results card" hidden>
+        <h3 class="catalog-results__title">Результаты поиска</h3>
+        <p id="catalogResultsSummary" class="catalog-results__summary"></p>
+        <ul id="catalogResultsList" class="catalog-results__list"></ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container"></div>
+    </footer>
+  </div>
+
+  <script type="module" src="auth-app.js"></script>
+  <script src="catalog.js"></script>
+</body>
+</html>
